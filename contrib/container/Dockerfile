@@ -10,14 +10,14 @@
 # - Monitors source files for any changes, and live-reloads server
 
 # Base image last bumped 2026-10-06
-FROM python:3.14.8-slim-trixie@sha256:a2b82f3c48559aa0a8446d9af49826b6e2b2016f4cd2afabfe6013ec53729170 AS inventree_base
 
 # Build arguments for this image
 ARG commit_tag=""
 ARG commit_hash=""
 ARG commit_date=""
-
+ARG NODE_VERSION=24
 ARG data_dir="data"
+FROM python:3.14.8-slim-trixie@sha256:a2b82f3c48559aa0a8446d9af49826b6e2b2016f4cd2afabfe6013ec53729170 AS inventree_base
 
 ENV PYTHONUNBUFFERED=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
@@ -99,7 +99,6 @@ ENTRYPOINT ["/bin/bash", "./init.sh"]
 # Multi-stage build to compile project requirements
 FROM inventree_base AS builder_stage
 
-ARG NODE_VERSION=24
 
 # Copy source files
 COPY src ${INVENTREE_HOME}/src
