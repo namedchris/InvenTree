@@ -18,7 +18,6 @@ ARG commit_hash=""
 ARG commit_date=""
 
 ARG data_dir="data"
-ARG NODE_VERSION=24
 
 ENV PYTHONUNBUFFERED=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
@@ -99,6 +98,8 @@ ENTRYPOINT ["/bin/bash", "./init.sh"]
 
 # Multi-stage build to compile project requirements
 FROM inventree_base AS builder_stage
+
+ARG NODE_VERSION=24
 
 # Copy source files
 COPY src ${INVENTREE_HOME}/src
