@@ -122,7 +122,7 @@ RUN pip install --user --require-hashes -r base_requirements.txt --no-cache-dir 
 # pinned to v0.40.5
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/1889911f0841e669de0be5bd02c737a3f1fd20fa/install.sh | bash && \
     export NVM_DIR="$HOME/.nvm" && \
-    source "$NVM_DIR/nvm.sh" && \
+    . "$NVM_DIR/nvm.sh" && \
     nvm install "$NODE_VERSION" && \
     corepack enable yarn && \
     yarn config set network-timeout 600000 -g
