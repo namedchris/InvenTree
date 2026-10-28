@@ -162,27 +162,3 @@ RUN pip-licenses --format=json --with-license-file --no-license-path > "${INVENT
 
 # Launch the production server
 CMD ["sh", "-c", "exec gunicorn -c ./gunicorn.conf.py InvenTree.wsgi -b ${INVENTREE_WEB_ADDR}:${INVENTREE_WEB_PORT} --chdir ${INVENTREE_BACKEND_DIR}/InvenTree"]
-
-FROM builder_stage AS dev
-
-ENV PATH=/root/.local/bin:$PATH
-
-# Vite server (for local frontend development)
-EXPOSE 5173
-
-# The development image requires the source code to be mounted to /home/inventree/
-# So from here, we don't actually "do" anything, apart from some file management
-
-ENV INVENTREE_DEBUG=True
-
-# Location for python virtual environment
-# If the INVENTREE_PY_ENV variable is set, the entrypoint script will use it!
-ENV INVENTREE_PY_ENV="${INVENTREE_DATA_DIR}/env"
-
-WORKDIR ${INVENTREE_HOME}
-
-# Entrypoint ensures that we are running in the python virtual environment
-ENTRYPOINT ["/bin/bash", "./contrib/container/init.sh"]
-
-# Launch the development server
-CMD ["invoke", "dev.server", "-a", "${INVENTREE_WEB_ADDR}:${INVENTREE_WEB_PORT}"]
